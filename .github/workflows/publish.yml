@@ -1,27 +1,30 @@
-# Dormant until the npm package "pink-agentic-payments-ai-sdk" has a trusted publisher for this repo
-# (owner Pink-Agentic-Payments, repo pink-agentic-payments-ai-sdk, workflow publish.yml, environment npm).
-
 name: publish
 
+# STATUS: first release (0.1.0) uses a short-lived npm granular token
+# (NPM_TOKEN repo secret) because npm Trusted Publishers can only be
+# configured once the package already exists on the registry. Once 0.1.0
+# is live, a Trusted Publisher is configured on npmjs.com and this workflow
+# switches to OIDC (no NPM_TOKEN needed).
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    environment: npm
-    permissions:
-      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
