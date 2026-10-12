@@ -1,6 +1,6 @@
 {
   "name": "pink-agentic-payments-ai-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vercel AI SDK tools for Pink Agentic AI Payments: let an AI SDK agent request payments checked against company spending rules before any payment credential is issued.",
   "type": "module",
   "main": "./dist/index.cjs",

@@ -1,10 +1,6 @@
 name: publish
 
-# STATUS: first release (0.1.0) uses a short-lived npm granular token
-# (NPM_TOKEN repo secret) because npm Trusted Publishers can only be
-# configured once the package already exists on the registry. Once 0.1.0
-# is live, a Trusted Publisher is configured on npmjs.com and this workflow
-# switches to OIDC (no NPM_TOKEN needed).
+# Publishes via npm OIDC Trusted Publishing (no NPM_TOKEN secret).
 on:
   push:
     tags:
@@ -23,8 +19,13 @@ jobs:
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
+      # OIDC trusted publishing needs npm >= 11.5; the npm bundled with
+      # actions/setup-node's Node 22 is older, so upgrade it first.
+      - run: npm install -g npm@11
       - run: npm ci
       - run: npm run build
+      # Requires npm >= 11.5 configured as a Trusted Publisher for this
+      # package on npmjs.com (Settings -> Trusted Publisher -> GitHub
+      # Actions, pointing at this repo + this workflow file). No NPM_TOKEN
+      # secret needed; auth is via OIDC.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
