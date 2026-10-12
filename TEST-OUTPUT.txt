@@ -1,0 +1,31 @@
+Pink Agentic AI Payments x Vercel AI SDK -- live demo
+Date: 2026-10-12T22:01:14.517Z
+Model: google(gemini-3.8-flash) via @ai-sdk/google
+Sandbox workspace created (template=startup). workspace_id excluded from this transcript.
+Agent: Eng Infra AI
+
+=== 1. allowed ===
+tool_call: check_policy({"amount":50,"currency":"USD","payeeId":"p_figma","purpose":"design tool renewal"})
+tool_result: check_policy -> "would_decision=would_allow reason=Known vendors under $1,000"
+tool_call: request_payment({"amount":50,"currency":"USD","payeeId":"p_figma","purpose":"design tool renewal"})
+tool_result: request_payment -> "decision=allowed payment_id=pay_f645358d4fd2 credential_type=virtual_card"
+final_text: The payment was allowed with payment ID pay_f645358d4fd2.
+
+=== 2. blocked ===
+tool_call: request_payment({"amount":10000,"currency":"USD","payeeId":"p_figma","purpose":"large annual license"})
+tool_result: request_payment -> "decision=blocked payment_id=pay_e6b212a7434f rule=\"Eng Infra AI's monthly budget is used up\". This exact request will never be allowed; do not retry it unchanged."
+final_text: The payment request was blocked with the rule: "Eng Infra AI's monthly budget is used up".
+
+=== 3. pending_human ===
+tool_call: request_payment({"amount":2000,"currency":"USD","payeeId":"p_figma","purpose":"team license upgrade"})
+tool_result: request_payment -> "decision=pending_human payment_id=pay_e2b780b5f3fa approver=Sarah Kim (CFO). This request is on hold until a human approves or declines it; do not resubmit it."
+final_text: The payment request (ID: `pay_e2b780b5f3fa`) resulted in a decision of `pending_human`, awaiting approval from Sarah Kim (CFO).
+
+Admin approving hold pay_e2b780b5f3fa out-of-band (not via the model)...
+
+=== 4. check_payment_status after approval ===
+tool_call: check_payment_status({"paymentId":"pay_e2b780b5f3fa"})
+tool_result: check_payment_status -> "decision=approved payment_id=pay_e2b780b5f3fa credential_type=virtual_card"
+final_text: The decision for payment `pay_e2b780b5f3fa` is approved.
+
+=== done ===

@@ -1,0 +1,27 @@
+# Dormant until the npm package "pink-agentic-payments-ai-sdk" has a trusted publisher for this repo
+# (owner Pink-Agentic-Payments, repo pink-agentic-payments-ai-sdk, workflow publish.yml, environment npm).
+
+name: publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install
+      - run: npm run build
+      - run: npm publish --provenance --access public

@@ -1,0 +1,68 @@
+{
+  "name": "pink-agentic-payments-ai-sdk",
+  "version": "0.1.0",
+  "description": "Vercel AI SDK tools for Pink Agentic AI Payments: let an AI SDK agent request payments checked against company spending rules before any payment credential is issued.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "node --test --import tsx tests/unit.test.ts",
+    "test:live": "node --test --import tsx tests/live.test.ts"
+  },
+  "keywords": [
+    "vercel-ai-sdk",
+    "ai-sdk",
+    "ai-agents",
+    "agent-payments",
+    "payments",
+    "typescript"
+  ],
+  "homepage": "https://pinkwallet.com/agentic/developers/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pink-Agentic-Payments/pink-agentic-payments-ai-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pink-Agentic-Payments/pink-agentic-payments-ai-sdk/issues"
+  },
+  "license": "MIT",
+  "author": "PinkWallet",
+  "dependencies": {
+    "pink-agentic-payments": "^0.1.0"
+  },
+  "peerDependencies": {
+    "ai": ">=5.0.0",
+    "zod": "^3.24.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@ai-sdk/google": "^4.0.94",
+    "@types/node": "^22.10.1",
+    "ai": "^7.0.138",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "zod": "^4.0.94"
+  }
+}
